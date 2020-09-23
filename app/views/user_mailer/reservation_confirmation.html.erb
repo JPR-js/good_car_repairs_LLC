@@ -1,0 +1,47 @@
+<h1><%= @reservation.f_name %>,</h1>
+<h2> Your reservation has been successfully been made at Good Car Repairs!</h2>
+<br></br>
+<h2>See Details Below!</h2>
+<%= @user.email %>
+
+<p>Thank You For Choosing Good Car Repairs.</p>
+
+  <p>
+    <strong>First name:</strong>
+    <%= @reservation.f_name %>
+  </p>
+  
+  <p>
+    <strong>Last name:</strong>
+    <%= @reservation.l_name %>
+  </p>
+  
+  <p>
+    <strong>Phone Number:</strong>
+    <%= @reservation.phone_num %>
+  </p>
+  
+  <p>
+    <strong>Year:</strong>
+    <%= @reservation.year %>
+  </p>
+  
+  <p>
+    <strong>Make:</strong>
+    <%= @reservation.make %>
+  </p>
+  
+  <p>
+    <strong>Model:</strong>
+    <%= @reservation.model %>
+  </p>
+  
+  <p>
+    <strong>Rapair Requested:</strong>
+    <%= @reservation.repair %>
+  </p>
+  
+  <p>
+    <strong>Date:</strong>
+    <%= @reservation.date %>
+  </p>

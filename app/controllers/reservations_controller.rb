@@ -18,9 +18,19 @@ class ReservationsController < ApplicationController
   # GET /reservations/new
   def new
     #store session information about user's id and ip.
+    write_log("in new")
     session[:current_user_id] = params[:user_id]
     session[:user_ip] = request.remote_ip
-    @reservation = Reservation.new
+    hold = Reservation.find_by(user_id: params[:user_id])
+    if hold
+      write_log("Correct, the record does exist")
+      @reservation = Reservation.find_by(user_id: params[:user_id])
+      redirect_to @reservation
+
+    else
+      write_log("correct, the record doesnt exist")
+      @reservation = Reservation.new
+    end
   end
 
   # GET /reservations/1/edit
@@ -31,17 +41,15 @@ class ReservationsController < ApplicationController
   # POST /reservations.json
   def create
     write_log("in create -\n")
-    write_log(request.remote_ip)
-    write_log(params)
     @reservation = Reservation.new(reservation_params)
     @user = User.find(session[:current_user_id])
-    write_log(session[:current_user_id])
     respond_to do |format|
       if @reservation.save
         UserMailer.reservation_confirmation(@user, @reservation).deliver
+        UserMailer.car_repair_appointment(@user, @reservation).deliver
+
         format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
         format.json { render :show, status: :created, location: @reservation }
-        write_log(params)
       else
         format.html { render :new }
         format.json { render json: @reservation.errors, status: :unprocessable_entity }

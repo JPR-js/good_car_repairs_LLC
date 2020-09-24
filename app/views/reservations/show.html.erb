@@ -39,5 +39,20 @@
   <strong>Date:</strong>
   <%= @reservation.date %>
 </p>
+ 
+
+<!-- yeah, this is a cheap way to go about the experience field... why do we need the
+user's IP address for a cap repair anyways? -->
+<label for="experience">Please rate your experience from 1 to 5.</label>
+<select name="experience">
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+</select>
+<input type="submit" value="Submit">
+<br></br>
+
 
 <%= link_to 'Back', root_path %>

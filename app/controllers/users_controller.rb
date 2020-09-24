@@ -10,9 +10,6 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    # @id = params[:id]
-    # @reservation = Reservation.find_by_oid
-    # Rails.logger.debug(@id)
   end
 
   # GET /users/new
@@ -27,17 +24,20 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+    user_email = params[:user]["email"]
     @user = User.new(user_params)
+
+
 
     respond_to do |format|
       if @user.save
         UserMailer.account_confirmation(@user).deliver
-
-        #NEED TO CHANGE BACK AFTER TESTING
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
-        format.html { render :new }
+        @user = User.find_by(email: user_email)
+        @id = @user[:id]
+        format.html { redirect_to new_reservation_url(user_id: @id, returning_user: true) }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -70,9 +70,9 @@ class UsersController < ApplicationController
   def confirmation
     @id = params[:id]
     write_log("In Confirmation - ")
-    write_log(User.find(params[:id]))
+    # write_log(User.find(params[:id]))
     # redirect_to new_reservation_url(user: @user)
-    redirect_to new_reservation_url(user_id: @id)
+    redirect_to new_reservation_url(user_id: @id, returning_user: false)
 
   end
 
@@ -80,6 +80,10 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def set_user_by_email(user_email)
+      @user = User.where(:email)
     end
 
     # Only allow a list of trusted parameters through.

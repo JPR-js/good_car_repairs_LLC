@@ -49,5 +49,3 @@ Gem rails-html-sanitizer-1.3.0
 * Database initialization - sqlite3 
 
 * Deployment instructions - run ruby bin/rails server to get it going. Then visit http://localhost:3000 and the rest should be intuitive.
-
-* ...

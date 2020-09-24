@@ -17,14 +17,9 @@ class ReservationsController < ApplicationController
 
   # GET /reservations/new
   def new
-    write_log("\nin New - ")
-    write_log(params)
-    write_log(request.remote_ip)
-
-    # @user = User.find(params[:user_id])
+    #store session information about user's id and ip.
     session[:current_user_id] = params[:user_id]
     session[:user_ip] = request.remote_ip
-    write_log(session[:user_ip])
     @reservation = Reservation.new
   end
 
